@@ -1,10 +1,10 @@
-version: "3.7"
+version: "3.8"
 
 services:
   api:
     build: ./api
     environment:
-      - CONNECTION_STRING=postgres://demo_user:demo_user@db/demo_db
+      - CONNECTION_STRING=postgres://deso_user:deso_user@db/deso_db
     depends_on:
       - db
     networks:
@@ -25,9 +25,9 @@ services:
   db:
     image: postgres:11.2-alpine
     environment:
-      POSTGRES_USER: demo_user
-      POSTGRES_PASSWORD: demo_user
-      POSTGRES_DB: demo_db
+      POSTGRES_USER: deso_user
+      POSTGRES_PASSWORD: deso_user
+      POSTGRES_DB: deso_db
     volumes:
       - ./db/init_sql_scripts/:/docker-entrypoint-initdb.d
     networks:
