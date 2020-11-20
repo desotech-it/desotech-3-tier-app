@@ -21,7 +21,7 @@ app.get("/", function(req, res) {
     // var to store the json response
     var jsonRes = {
         ContainerIP: networkInterfaces,
-        ContainerHostname : os.hostname()
+        ContainerHostname : os.hostname(),
         XForwardedfor: req.headers['x-forwarded-for'],
         RemoteAddress: req.connection.remoteAddress,
         RemoteHost: req.headers['host'],
