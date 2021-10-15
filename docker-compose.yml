@@ -23,7 +23,7 @@ services:
       - frontend
 
   db:
-    image: postgres:11.2-alpine
+    image: r.deso.tech/dockerhub/library/postgres:11.2-alpine
     environment:
       POSTGRES_USER: deso_user
       POSTGRES_PASSWORD: deso_user
