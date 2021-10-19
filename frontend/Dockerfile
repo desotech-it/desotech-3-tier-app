@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM r.deso.tech/dockerhub/library/node:10-alpine
 
 WORKDIR /usr/src/app
 
