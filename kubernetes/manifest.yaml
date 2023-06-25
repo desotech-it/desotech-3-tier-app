@@ -1,42 +1,42 @@
-apiVersion: v1
+backendVersion: v1
 kind: Namespace
 metadata:
-  name: api-namespace
+  name: backend-namespace
 ---
-apiVersion: v1
+backendVersion: v1
 kind: Namespace
 metadata:
   name: frontend-namespace
 ---
-apiVersion: v1
+backendVersion: v1
 kind: Namespace
 metadata:
   name: db-namespace
 ---
 
-apiVersion: apps/v1
+backendVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
-  namespace: api-namespace
+  name: backend-deployment
+  namespace: backend-namespace
   labels:
-    app: api
+    app: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      app: backend
   template:
     metadata:
       labels:
-        app: api
+        app: backend
     spec:
       containers:
-        - name: api
-          image: r.deso.tech/3tier/api:1.0
+        - name: backend
+          image: r.deso.tech/3tier/backend:1.0
           env:
             - name: CONNECTION_STRING
-              value: postgres://deso_user:deso_user@db/deso_db
+              value: postgres://deso_user:deso_user@db-service.db-namespace/deso_db
           ports:
             - containerPort: 3001
           resources:
@@ -46,14 +46,14 @@ spec:
 
 ---
 
-apiVersion: v1
+backendVersion: v1
 kind: Service
 metadata:
-  name: api-service
-  namespace: api-namespace
+  name: backend-service
+  namespace: backend-namespace
 spec:
   selector:
-    app: api
+    app: backend
   ports:
     - protocol: TCP
       port: 3001
@@ -61,7 +61,7 @@ spec:
 
 ---
 
-apiVersion: apps/v1
+backendVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
@@ -83,8 +83,8 @@ spec:
           imagePullPolicy: Always
           image: r.deso.tech/3tier/frontend:1.1.0
           env:
-            - name: API_URL
-              value: http://api-service.api-namespace:3001/data
+            - name: backend_URL
+              value: http://backend-service.backend-namespace:3001/data
           ports:
             - containerPort: 3000
           resources:
@@ -93,7 +93,7 @@ spec:
               cpu: "200m"
 ---
 
-apiVersion: v1
+backendVersion: v1
 kind: Service
 metadata:
   name: frontend-service
@@ -110,7 +110,7 @@ spec:
 
 ---
 
-apiVersion: apps/v1
+backendVersion: apps/v1
 kind: Deployment
 metadata:
   name: db-deployment
@@ -150,7 +150,7 @@ spec:
 
 ---
 
-apiVersion: v1
+backendVersion: v1
 kind: Service
 metadata:
   name: db-service
