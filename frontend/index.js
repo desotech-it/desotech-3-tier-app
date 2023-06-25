@@ -37,7 +37,11 @@ const css = `
 `;
 
 app.get('/', function(req, res) {
-    request(restApiUrl, { method: "GET" }, function(err, resp, body) {
+    request({
+        url: restApiUrl,
+        method: "GET",
+        timeout: 3000 // Timeout di 3 secondi
+    }, function(err, resp, body) {
         if (!err && resp.statusCode === 200) {
             console.log(`Frontend Running Successfully`);
             var objData = JSON.parse(body);
@@ -52,9 +56,9 @@ app.get('/', function(req, res) {
         } else {
             console.log(err);
             console.error(err);
-            var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-            responseString += `<h1>API Server not available</h1></body></html>`;
-            res.send(responseString);
+            var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
+            errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
+            res.status(500).send(errorResponse);
         }
     });
 });
