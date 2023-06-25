@@ -35,7 +35,6 @@ const css = `
         }
     </style>
 `;
-
 app.get('/', function(req, res) {
     const apiUrl1 = `${backendUrl}`;
     const apiUrl2 = `${backendUrl}/data`;
@@ -90,7 +89,10 @@ app.get('/', function(req, res) {
             console.log(err1);
             console.error(err1);
             var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-            errorResponse += `<h1>Unable to contact API
+            errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
+            res.status(500).send(errorResponse);
+        }
+    });
 
 
 app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
