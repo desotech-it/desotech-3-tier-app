@@ -47,24 +47,17 @@ app.get('/', function(req, res) {
     function sendResponse() {
         if (result1 && result2) {
             console.log(`Frontend Running Successfully`);
+            var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"></br>`;
+
+            // Aggiunta del JSON come tabella per la URI '/'
             var objData1 = JSON.parse(result1);
+            responseString += `<h2>JSON Data from /:</h2>${convertToTable(objData1)}`;
+
+            // Aggiunta del JSON come tabella per la URI '/data'
             var objData2 = JSON.parse(result2);
-            var c_cap = objData1.data;
+            responseString += `<h2>JSON Data from /data:</h2>${convertToTable(objData2)}`;
 
-            // Generazione della tabella per l'output JSON da '/'
-            var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br><table><tr><th>Country</th><th>Capital</th></tr>`;
-
-            for (var i = 0; i < c_cap.length; i++)
-                responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
-
-            responseString += `</table></body></html>`;
-
-            // Aggiunta del JSON come tabella sotto la tabella esistente
-            var jsonTable1 = convertToTable(objData1);
-            var jsonTable2 = convertToTable(objData2);
-            responseString += `<h2>JSON Data from /:</h2>${jsonTable1}`;
-            responseString += `<h2>JSON Data from /data:</h2>${jsonTable2}`;
-
+            responseString += `</body></html>`;
             res.send(responseString);
         } else {
             console.log("Unable to retrieve data from API Server");
