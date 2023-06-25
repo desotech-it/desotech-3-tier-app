@@ -25,7 +25,7 @@ app.get("/", function(req, res) {
         XForwardedfor: req.headers['x-forwarded-for'],
         RemoteAddress: req.socket.remoteAddress,
         RemoteHost: req.headers['host'],
-        language: req.headers["accept-language"].split(",")[0],
+        language: req.headers["accept-language"] ? req.headers["accept-language"].split(",")[0] : null,
         software: req.headers["user-agent"].match(/\(([^)]+)\)/)[1],
     };
 
