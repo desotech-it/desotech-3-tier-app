@@ -79,8 +79,15 @@ app.get('/', function(req, res) {
         if (err) {
             console.error(err);
             var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-            errorResponse += `<h1>Error: Unable to connect to the Backend Server</h1>`; // Modify this line
-            errorResponse += `<p>${err.message}</p>`; // Add this line
+
+            if (err.code === 'ESOCKETTIMEDOUT') {
+                errorResponse += `<h1>Error: Backend Server cannot connect to the Database</h1>`;
+                errorResponse += `<p>${err.message}</p>`;
+            } else {
+                errorResponse += `<h1>Error: Unable to connect to the Backend Server</h1>`;
+                errorResponse += `<p>${err.message}</p>`;
+            }
+
             res.status(500).send(errorResponse);
             return;
         }
