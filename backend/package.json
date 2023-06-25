@@ -9,7 +9,8 @@
   "author": "Nicola Marco Decandia",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
-    "pg": "^7.11.0"
+    "express": "*",
+    "pg": "*",
+    "os": "*"
   }
 }
