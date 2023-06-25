@@ -70,7 +70,13 @@ app.get('/', function(req, res) {
             });
         }
     }, function(err, results) {
-        if (err) {
+        if (err && err.code === 'ETIMEDOUT') {
+            var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
+            errorResponse += `<h1>Database Connection Timeout</h1></body></html>`;
+            res.status(500).send(errorResponse);
+            return;
+        } else if (err) {
+            console.error(err);
             var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
             errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
             res.status(500).send(errorResponse);
