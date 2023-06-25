@@ -24,7 +24,12 @@ app.get('/', function(req, res) {
                 res.send(responseString);
             } else {
                 console.log(err);
-                res.status(500).send('API Server not available');
+                res.status(200).send('API Server not available');
+                var objData = JSON.parse(body);
+                var c_cap = objData.data;
+                var responseString = `<html><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo" ></br><table border="1"><tr><td>Country</td><td>Capital</td></tr>`;
+                responseString = responseString + `<br />API Server not available</body></html>`;
+                res.send(responseString);
             }
         });
 });

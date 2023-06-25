@@ -78,9 +78,9 @@ spec:
       labels:
         app: frontend
     spec:
-      imagePullPolicy: Always
       containers:
         - name: frontend
+          imagePullPolicy: Always
           image: r.deso.tech/3tier/frontend:1.1.0
           env:
             - name: API_URL
