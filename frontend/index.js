@@ -22,7 +22,7 @@ const css = `
 
         table {
             border-collapse: collapse;
-            width: 600px;
+            width: 400px;
         }
 
         th, td {
@@ -45,17 +45,13 @@ app.get('/', function(req, res) {
                 method: "GET",
                 timeout: 3000
             }, function(err, resp, body) {
-                if (err && err.code === 'ESOCKETTIMEDOUT') {
-                    console.error(err);
-                    var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-                    errorResponse += `<h1>Database Connection Timeout</h1></body></html>`;
-                    res.status(500).send(errorResponse);
+                if (err) {
+                    callback(err);
                     return;
-                } else if (err || resp.statusCode !== 200) {
-                    console.error(err || new Error("Bad status code from root API call"));
-                    var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-                    errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
-                    res.status(500).send(errorResponse);
+                }
+
+                if (resp.statusCode !== 200) {
+                    callback(new Error("Bad status code from root API call"));
                     return;
                 }
                 callback(null, JSON.parse(body));
@@ -67,17 +63,13 @@ app.get('/', function(req, res) {
                 method: "GET",
                 timeout: 3000
             }, function(err, resp, body) {
-                if (err && err.code === 'ESOCKETTIMEDOUT') {
-                    console.error(err);
-                    var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-                    errorResponse += `<h1>Database Connection Timeout</h1></body></html>`;
-                    res.status(500).send(errorResponse);
+                if (err) {
+                    callback(err);
                     return;
-                } else if (err || resp.statusCode !== 200) {
-                    console.error(err || new Error("Bad status code from data API call"));
-                    var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-                    errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
-                    res.status(500).send(errorResponse);
+                }
+
+                if (resp.statusCode !== 200) {
+                    callback(new Error("Bad status code from data API call"));
                     return;
                 }
                 callback(null, JSON.parse(body));
@@ -98,7 +90,7 @@ app.get('/', function(req, res) {
 
         // Costruisci la stringa di risposta come desideri
         var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-        responseString += `<h1>Connection to Database Successfully.</h1>`;
+        responseString += `<h1>Connection to Backend successfully.</h1>`;
 
         // Prima tabella con /data
         responseString += `<table><tr><th>Country</th><th>Capital</th></tr>`;
@@ -107,29 +99,18 @@ app.get('/', function(req, res) {
         responseString += `</table>`;
 
         // Seconda tabella con /
-        responseString += `<h1>Connection to Backend Successfully.</h1>`;
+        responseString += `<h1>Information of Backend Pod:</h1>`;
         responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
-
         for (const [key, value] of Object.entries(rootData)) {
-            if (key === 'ContainerIP') {
-                for (const [interfaceName, interfaceList] of Object.entries(value)) {
-                    for (const interface of interfaceList) {
-                        if (interface.family === 'IPv4') {
-                            responseString += `<tr><td>${interfaceName} IPv4 Address</td><td>${interface.address}</td></tr>`;
-                        }
-                        if (interface.family === 'IPv6') {
-                            responseString += `<tr><td>${interfaceName} IPv6 Address</td><td>${interface.address}</td></tr>`;
-                        }
-                    }
-                }
-            } else {
-                responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
-            }
+            responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
         }
-        responseString += `</table>`;
-        responseString += `</body></html>`;
+        responseString += `</table></body></html>`;
+
+        // Risposta finale
         res.send(responseString);
     });
 });
 
-app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
+app.listen(port, function() {
+    console.log(`Frontend server is running on port ${port}`);
+});
