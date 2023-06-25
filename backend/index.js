@@ -17,9 +17,13 @@ const connectToDatabase = async () => {
     return true;
   } catch (err) {
     console.error("Failed to connect to the database.", err);
+    setTimeout(connectToDatabase, 5000);
     return false;
   }
 };
+
+// Inizializza la connessione al database
+connectToDatabase();
 
 app.get("/", function(req, res) {
   var os = require( 'os' );
