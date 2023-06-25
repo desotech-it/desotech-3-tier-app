@@ -37,7 +37,7 @@ spec:
           image: r.deso.tech/3tier/backend:1.1.0
           env:
             - name: CONNECTION_STRING
-              value: postgres://deso_user:deso_password@db-service.db-namespace/deso_db
+              value: postgres://deso_user:deso_pass@db-service.db-namespace/deso_db
           ports:
             - containerPort: 3001
           resources:
@@ -131,7 +131,7 @@ spec:
       containers:
         - name: db
           image: r.deso.tech/3tier/db:1.1.0
-#          env:
+#          env: # NO NEED because already present in the container.
 #            - name: POSTGRES_USER
 #              value: deso_user
 #            - name: POSTGRES_PASSWORD
@@ -145,9 +145,9 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
-      volumes:
-        - name: init-sql-scripts
-          emptyDir: {}
+      # volumes:
+      #   - name: init-sql-scripts
+      #     emptyDir: {}
 
 ---
 
