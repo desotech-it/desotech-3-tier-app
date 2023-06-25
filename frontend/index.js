@@ -3,7 +3,7 @@ const request = require('request');
 
 const app = express();
 const port = 3000;
-const restApiUrl = process.env.API_URL;
+const backendUrl = 'http://backend-service.backend-namespace:3001';
 
 // Aggiunta del CSS per la tabella e il logo
 const css = `
@@ -38,7 +38,7 @@ const css = `
 
 app.get('/', function(req, res) {
     request({
-        url: restApiUrl,
+        url: `${backendUrl}/data`,
         method: "GET",
         timeout: 3000 // Timeout di 3 secondi
     }, function(err, resp, body) {
