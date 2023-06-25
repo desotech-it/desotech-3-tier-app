@@ -87,7 +87,7 @@ app.get('/', function(req, res) {
         if (err) {
             console.error(err);
             var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-            errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
+            errorResponse += `<h1>An error occurred processing your request</h1></body></html>`;
             res.status(500).send(errorResponse);
             return;
         }
@@ -101,20 +101,26 @@ app.get('/', function(req, res) {
         responseString += `<h1>Connection to Backend successfully.</h1>`;
 
         // Prima tabella con /data
+        responseString += `<h1>Capital Cities:</h1>`;
         responseString += `<table><tr><th>Country</th><th>Capital</th></tr>`;
-        for (var i = 0; i < c_cap.length; i++)
-            responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
+        c_cap.forEach(function (row) {
+            responseString += `<tr><td>${row.country}</td><td>${row.capital}</td></tr>`;
+        });
         responseString += `</table>`;
 
         // Seconda tabella con /
         responseString += `<h1>Information of Backend Pod:</h1>`;
         responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
         for (const [key, value] of Object.entries(rootData)) {
-            if (key === 'ContainerIP' && value.eth0) {
-                // Mostra solo l'indirizzo IP dell'interfaccia eth0
-                for (const interface of value.eth0) {
-                    if (interface.family === 'IPv4') {
-                        responseString += `<tr><td>${key}</td><td>${interface.address}</td></tr>`;
+            if (key === 'ContainerIP') {
+                for (const [interfaceName, interfaceList] of Object.entries(value)) {
+                    for (const interface of interfaceList) {
+                        if (interface.family === 'IPv4') {
+                            responseString += `<tr><td>${interfaceName} IPv4 Address</td><td>${interface.address}</td></tr>`;
+                        }
+                        if (interface.family === 'IPv6') {
+                            responseString += `<tr><td>${interfaceName} IPv6 Address</td><td>${interface.address}</td></tr>`;
+                        }
                     }
                 }
             } else {
@@ -128,4 +134,6 @@ app.get('/', function(req, res) {
     });
 });
 
-app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
+app.listen(port, function() {
+    console.log(`Frontend listening at http://localhost:${port}`);
+});
