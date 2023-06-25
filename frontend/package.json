@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "*",
-    "request": "*"
+    "request": "*",
+    "async": "*"
   },
   "repository": {
     "type": "git",
