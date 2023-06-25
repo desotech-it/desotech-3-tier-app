@@ -98,7 +98,7 @@ app.get('/', function(req, res) {
 
         // Costruisci la stringa di risposta come desideri
         var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-        responseString += `<h1>Connection to Backend successfully.</h1>`;
+        responseString += `<h1>Connection to Database Successfully.</h1>`;
 
         // Prima tabella con /data
         responseString += `<table><tr><th>Country</th><th>Capital</th></tr>`;
@@ -107,7 +107,7 @@ app.get('/', function(req, res) {
         responseString += `</table>`;
 
         // Seconda tabella con /
-        responseString += `<h1>Information of Backend Pod:</h1>`;
+        responseString += `<h1>Connection to Backend Successfully.</h1>`;
         responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
 
         for (const [key, value] of Object.entries(rootData)) {
@@ -127,21 +127,6 @@ app.get('/', function(req, res) {
             }
         }
         responseString += `</table>`;
-
-        // for (const [key, value] of Object.entries(rootData)) {
-        //     if (key === 'ContainerIP' && value.eth0) {
-        //         // Mostra solo l'indirizzo IP dell'interfaccia eth0
-        //         for (const interface of value.eth0) {
-        //             if (interface.family === 'IPv4') {
-        //                 responseString += `<tr><td>${key}</td><td>${interface.address}</td></tr>`;
-        //             }
-        //         }
-        //     } else {
-        //         responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
-        //     }
-        // }
-        // responseString += `</table>`;
-
         responseString += `</body></html>`;
         res.send(responseString);
     });
