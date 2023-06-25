@@ -22,7 +22,7 @@ const css = `
 
         table {
             border-collapse: collapse;
-            width: 400px;
+            width: 600px;
         }
 
         th, td {
