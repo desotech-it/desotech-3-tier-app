@@ -22,16 +22,26 @@ const connectToDatabase = async () => {
   }
 };
 
+// Aggiungi gestore per gli errori non catturati
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+});
+
+// Aggiungi listener per gli errori durante la connessione al database
+pool.on('error', (err) => {
+  console.error('Database connection error:', err);
+});
+
 // Inizializza la connessione al database
 connectToDatabase();
 
 app.get("/", function(req, res) {
-  var os = require( 'os' );
+  var os = require('os');
   var networkInterfaces = os.networkInterfaces();
 
   var jsonRes = {
     ContainerIP: networkInterfaces,
-    ContainerHostname : os.hostname(),
+    ContainerHostname: os.hostname(),
     XForwardedfor: req.headers['x-forwarded-for'],
     RemoteAddress: req.socket.remoteAddress,
     RemoteHost: req.headers['host'],
@@ -71,5 +81,4 @@ app.get('/data', async function(req, res) {
   }
 });
 
-
-app.listen(port, () => console.log(`Desotech API Backend os listening on port ${port}!`));
+app.listen(port, () => console.log(`Desotech API Backend is listening on port ${port}!`));
