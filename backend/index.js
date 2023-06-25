@@ -36,22 +36,22 @@ app.get("/", function(req, res) {
 
 
 app.get('/data', function(req, res) {
-  pool.query('SELECT country, capital from country_and_capitals', [], (err, result) => {
+  pool.query('SELECT country, capital FROM country_and_capitals', (err, result) => {
     if (err) {
       console.error("Errore nella query:", err);
-      return res.status(500).jsonp({
+      return res.status(500).json({
         error: "Si è verificato un errore durante l'esecuzione della query"
       });
     }
 
-    if (!result || !result.rows) {
+    if (result.rows.length === 0) {
       console.error("Dati non trovati");
-      return res.status(404).jsonp({
+      return res.status(404).json({
         error: "Dati non trovati"
       });
     }
 
-    return res.status(200).jsonp({
+    return res.status(200).json({
       data: result.rows
     });
   });

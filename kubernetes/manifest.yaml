@@ -37,7 +37,7 @@ spec:
           image: r.deso.tech/3tier/backend:1.1.0
           env:
             - name: CONNECTION_STRING
-              value: postgres://deso_user:deso_user@db-service.db-namespace/deso_db
+              value: postgres://deso_user:deso_password@db-service.db-namespace/deso_db
           ports:
             - containerPort: 3001
           resources:

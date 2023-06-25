@@ -26,8 +26,8 @@ app.get('/', function(req, res) {
             } else {
                 console.log(err);
                 console.error(err);
-                var responseString = `<html><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo" ></br><table border="1"><tr><td>Country</td><td>Capital</td></tr>`;
-                responseString = responseString + `<br />API Server not available</body></html>`;
+                var responseString = `<html><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo" ></br>`;
+                responseString = responseString + `<h1>API Server not available</h1></body></html>`;
                 res.send(responseString);
             }
         });
