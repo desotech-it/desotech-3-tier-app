@@ -9,7 +9,7 @@
 # dump build stage
 FROM r.deso.tech/dockerhub/library/postgres:15.3-alpine as dumper
 
-COPY /docker-entrypoint-initdb.d/init-user-db.sh /docker-entrypoint-initdb.d/
+COPY test_dump.sql /docker-entrypoint-initdb.d/
 
 RUN ["sed", "-i", "s/exec \"$@\"/echo \"skipping...\"/", "/usr/local/bin/docker-entrypoint.sh"]
 
