@@ -102,9 +102,23 @@ app.get('/', function(req, res) {
         responseString += `<h1>Information of Backend Pod:</h1>`;
         responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
         for (const [key, value] of Object.entries(rootData)) {
-            responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
+            if (key === 'ContainerIP') {
+                for (const [interfaceName, interfaceList] of Object.entries(value)) {
+                    for (const interface of interfaceList) {
+                        if (interface.family === 'IPv4') {
+                            responseString += `<tr><td>${interfaceName} IPv4 Address</td><td>${interface.address}</td></tr>`;
+                        }
+                        if (interface.family === 'IPv6') {
+                            responseString += `<tr><td>${interfaceName} IPv6 Address</td><td>${interface.address}</td></tr>`;
+                        }
+                    }
+                }
+            } else {
+                responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
+            }
         }
-        responseString += `</table></body></html>`;
+        responseString += `</table>`;
+        responseString += `</body></html>`;
 
         // Risposta finale
         res.send(responseString);
