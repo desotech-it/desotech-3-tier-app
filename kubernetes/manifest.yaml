@@ -39,6 +39,10 @@ spec:
               value: postgres://deso_user:deso_user@db/deso_db
           ports:
             - containerPort: 3001
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
 
 ---
 
@@ -74,6 +78,7 @@ spec:
       labels:
         app: frontend
     spec:
+      imagePullPolicy: Always
       containers:
         - name: frontend
           image: r.deso.tech/3tier/frontend:1.1.0
@@ -82,7 +87,10 @@ spec:
               value: http://api-service.api-namespace:3001/data
           ports:
             - containerPort: 3000
-
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
 ---
 
 apiVersion: v1
@@ -132,6 +140,10 @@ spec:
           volumeMounts:
             - name: init-sql-scripts
               mountPath: /docker-entrypoint-initdb.d
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
       volumes:
         - name: init-sql-scripts
           emptyDir: {}

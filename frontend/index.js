@@ -14,7 +14,7 @@ app.get('/', function(req, res) {
             if (!err && resp.statusCode === 200) {
                 var objData = JSON.parse(body);
                 var c_cap = objData.data;
-                var responseString = `<html><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo" ></br><table border="1"><tr><td>Country</td><td>Capital</td></tr>`;
+                var responseString = `<html><body><img src="https://cdn.deso.tech/wp-content/uploads/2019/08/30160154/desotech-nome-103x46.png" alt="logo" ></br><table border="1"><tr><td>Country</td><td>Capital</td></tr>`;
 
                 for (var i = 0; i < c_cap.length; i++)
                     responseString = responseString +
@@ -23,8 +23,7 @@ app.get('/', function(req, res) {
                 responseString = responseString + `</table></body></html>`;
                 res.send(responseString);
             } else {
-                console.error(err);
-                res.status(500).send('Impossibile connettersi all\'API server');
+                console.log(err);
             }
         });
 });
