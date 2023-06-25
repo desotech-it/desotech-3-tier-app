@@ -7,8 +7,7 @@
 
 
 # dump build stage
-FROM r.deso.tech/dockerhub/library/postgres:15.3-alpine
-#as dumper
+FROM r.deso.tech/dockerhub/library/postgres:15.3-alpine as dumper
 
 COPY test_dump.sql /docker-entrypoint-initdb.d/
 
@@ -22,5 +21,5 @@ ENV PGDATA=/data
 RUN ["/usr/local/bin/docker-entrypoint.sh", "postgres"]
 
 # final build stage
-#FROM r.deso.tech/dockerhub/library/postgres:15.3-alpine
-#COPY --from=dumper /data $PGDATA
+FROM r.deso.tech/dockerhub/library/postgres:15.3-alpine
+COPY --from=dumper /data $PGDATA
