@@ -13,22 +13,22 @@ const pool = new Pool({
 app.enable('trust proxy');
 
 app.get("/", function(req, res) {
-    
+
     var os = require( 'os' );
     var networkInterfaces = os.networkInterfaces( );
-    
+
 
     // var to store the json response
     var jsonRes = {
         ContainerIP: networkInterfaces,
         ContainerHostname : os.hostname(),
         XForwardedfor: req.headers['x-forwarded-for'],
-        RemoteAddress: req.connection.remoteAddress,
+        RemoteAddress: req.socket.remoteAddress,
         RemoteHost: req.headers['host'],
         language: req.headers["accept-language"].split(",")[0],
         software: req.headers["user-agent"].match(/\(([^)]+)\)/)[1],
     };
-    
+
     // return the response in json format
     res.json(jsonRes);
 
@@ -41,7 +41,7 @@ app.get('/data', function(req, res) {
             return res.status(405).jsonp({
                 error: err
             })
-       
+
         }
 
         return res.status(200).jsonp({
