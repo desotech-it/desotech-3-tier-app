@@ -70,7 +70,7 @@ app.get('/', function(req, res) {
 
             // Aggiunta del JSON come tabella sotto la tabella esistente
             var jsonTable = convertToTable(objData);
-            responseString += jsonTable + `</body></html>`;
+            responseString += `<table><tr><th>Key</th><th>Value</th></tr>${jsonTable}</table></body></html>`;
 
             res.send(responseString);
         } else {
@@ -84,3 +84,4 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
+``
