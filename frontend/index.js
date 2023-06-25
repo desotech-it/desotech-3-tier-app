@@ -36,9 +36,24 @@ const css = `
     </style>
 `;
 
+function convertToTable(data) {
+    var tableString = `<table><tr><th>Key</th><th>Value</th></tr>`;
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            var value = data[key];
+            if (typeof value === 'object') {
+                value = JSON.stringify(value);
+            }
+            tableString += `<tr><td>${key}</td><td>${value}</td></tr>`;
+        }
+    }
+    tableString += `</table>`;
+    return tableString;
+}
+
 app.get('/', function(req, res) {
     request({
-        url: `${backendUrl}/data`,
+        url: `${backendUrl}`,
         method: "GET",
         timeout: 3000 // Timeout di 3 secondi
     }, function(err, resp, body) {
@@ -51,7 +66,12 @@ app.get('/', function(req, res) {
             for (var i = 0; i < c_cap.length; i++)
                 responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
 
-            responseString += `</table></body></html>`;
+            responseString += `</table>`;
+
+            // Aggiunta del JSON come tabella sotto la tabella esistente
+            var jsonTable = convertToTable(objData);
+            responseString += jsonTable + `</body></html>`;
+
             res.send(responseString);
         } else {
             console.log(err);
