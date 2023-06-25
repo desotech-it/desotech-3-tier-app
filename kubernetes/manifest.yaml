@@ -131,16 +131,16 @@ spec:
       containers:
         - name: db
           image: r.deso.tech/3tier/db:1.1.0
-          env:
-            - name: POSTGRES_USER
-              value: deso_user
-            - name: POSTGRES_PASSWORD
-              value: deso_user
-            - name: POSTGRES_DB
-              value: deso_db
-          volumeMounts:
-            - name: init-sql-scripts
-              mountPath: /docker-entrypoint-initdb.d
+#          env:
+#            - name: POSTGRES_USER
+#              value: deso_user
+#            - name: POSTGRES_PASSWORD
+#              value: deso_user
+#            - name: POSTGRES_DB
+#              value: deso_db
+#         volumeMounts:
+#            - name: init-sql-scripts
+#              mountPath: /docker-entrypoint-initdb.d
           resources:
             limits:
               memory: "128Mi"
