@@ -91,21 +91,22 @@ app.get('/', function(req, res) {
             responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
         responseString += `</table>`;
 
-// Seconda tabella con /
-responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
-for (const [key, value] of Object.entries(rootData)) {
-    if (key === 'ContainerIP' && value.eth0) {
-        // Mostra solo l'indirizzo IP dell'interfaccia eth0
-        for (const interface of value.eth0) {
-            if (interface.family === 'IPv4') {
-                responseString += `<tr><td>${key}</td><td>${interface.address}</td></tr>`;
+        // Seconda tabella con /
+        responseString += `<h1> Information of Backend Pod:</h1>`;
+        responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
+        for (const [key, value] of Object.entries(rootData)) {
+            if (key === 'ContainerIP' && value.eth0) {
+                // Mostra solo l'indirizzo IP dell'interfaccia eth0
+                for (const interface of value.eth0) {
+                    if (interface.family === 'IPv4') {
+                        responseString += `<tr><td>${key}</td><td>${interface.address}</td></tr>`;
+                    }
+                }
+            } else {
+                responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
             }
         }
-    } else {
-        responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
-    }
-}
-responseString += `</table>`;
+        responseString += `</table>`;
 
         responseString += `</body></html>`;
         res.send(responseString);
