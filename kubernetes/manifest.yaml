@@ -34,7 +34,7 @@ spec:
       containers:
         - name: backend
           imagePullPolicy: Always
-          image: r.deso.tech/3tier/backend:1.0
+          image: r.deso.tech/3tier/backend:1.1.0
           env:
             - name: CONNECTION_STRING
               value: postgres://deso_user:deso_user@db-service.db-namespace/deso_db
