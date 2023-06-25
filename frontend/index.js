@@ -56,20 +56,28 @@ app.get('/', function(req, res) {
                     var objData1 = JSON.parse(body1);
                     var objData2 = JSON.parse(body2);
                     var c_cap = objData1.data;
-                    var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br><table><tr><th>Country</th><th>Capital</th></tr>`;
 
-                    for (var i = 0; i < c_cap.length; i++)
-                        responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
+                    // Verifica se c_cap è definita
+                    if (c_cap) {
+                        var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br><table><tr><th>Country</th><th>Capital</th></tr>`;
 
-                    responseString += `</table></body></html>`;
+                        for (var i = 0; i < c_cap.length; i++)
+                            responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
 
-                    // Aggiunta del JSON come tabella sotto la tabella esistente
-                    var jsonTable1 = convertToTable(objData1);
-                    var jsonTable2 = convertToTable(objData2);
-                    responseString += `<h2>JSON Data from /:</h2>${jsonTable1}`;
-                    responseString += `<h2>JSON Data from /data:</h2>${jsonTable2}`;
+                        responseString += `</table></body></html>`;
 
-                    res.send(responseString);
+                        // Aggiunta del JSON come tabella sotto la tabella esistente
+                        var jsonTable1 = convertToTable(objData1);
+                        var jsonTable2 = convertToTable(objData2);
+                        responseString += `<h2>JSON Data from /:</h2>${jsonTable1}`;
+                        responseString += `<h2>JSON Data from /data:</h2>${jsonTable2}`;
+
+                        res.send(responseString);
+                    } else {
+                        var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
+                        errorResponse += `<h1>Data not available</h1></body></html>`;
+                        res.status(500).send(errorResponse);
+                    }
                 } else {
                     console.log(err2);
                     console.error(err2);
@@ -82,11 +90,7 @@ app.get('/', function(req, res) {
             console.log(err1);
             console.error(err1);
             var errorResponse = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
-            errorResponse += `<h1>Unable to contact API Server</h1></body></html>`;
-            res.status(500).send(errorResponse);
-        }
-    });
-});
+            errorResponse += `<h1>Unable to contact API
 
 
 app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
