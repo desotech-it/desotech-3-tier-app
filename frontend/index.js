@@ -81,15 +81,29 @@ app.get('/', function(req, res) {
         var rootData = results.root;
         var c_cap = results.data.data;
 
-        // Costruisci la stringa di risposta come desideri, qui l'ho mantenuta molto basilare
-        var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br><table><tr><th>Country</th><th>Capital</th></tr>`;
+        // Costruisci la stringa di risposta come desideri
+        var responseString = `<html><head>${css}</head><body><img src="https://www.deso.tech/wp-content/uploads/2023/03/desotech-300x133.png" alt="logo"><br>`;
         responseString += `<h1> Connection to Backend successfully.</h1>`;
-        responseString += JSON.stringify(rootData);
+
+        // Prima tabella con /data
+        responseString += `<table><tr><th>Country</th><th>Capital</th></tr>`;
         for (var i = 0; i < c_cap.length; i++)
             responseString += `<tr><td>${c_cap[i].country}</td><td>${c_cap[i].capital}</td></tr>`;
-        responseString += `</table></body></html>`;
+        responseString += `</table>`;
+
+        // Seconda tabella con /
+        responseString += `<table><tr><th>Property</th><th>Value</th></tr>`;
+        for (const [key, value] of Object.entries(rootData)) {
+            responseString += `<tr><td>${key}</td><td>${value}</td></tr>`;
+        }
+        responseString += `</table>`;
+
+        responseString += `</body></html>`;
         res.send(responseString);
     });
 });
+
+app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
+
 
 app.listen(port, () => console.log(`Frontend app listening on port ${port}!`));
