@@ -1,10 +1,10 @@
-FROM r.deso.tech/dockerhub/library/node:10-alpine
+FROM r.deso.tech/dockerhub/library/node:20-alpine
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --verbose
 COPY . .
 
 EXPOSE 3000

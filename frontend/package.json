@@ -1,6 +1,6 @@
 {
-  "name": "docker-frontend-backend-db",
-  "version": "1.0.0",
+  "name": "desotech-frontend-backend-db",
+  "version": "1.1.0",
   "description": "A tiny web app",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
-    "request": "^2.88.0"
-  }
+    "express": "^4.18.2",
+    "request": "^2.88.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desotech-it/desotech-3-tier-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/desotech-it/desotech-3-tier-app/issues"
+  },
+  "homepage": "https://github.com/desotech-it/desotech-3-tier-app#readme"
 }
