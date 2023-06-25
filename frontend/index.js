@@ -83,6 +83,27 @@ app.get('/', function(req, res) {
             if (err.code === 'ESOCKETTIMEDOUT') {
                 errorResponse += `<h1>Error: Backend Server cannot connect to the Database</h1>`;
                 errorResponse += `<p>${err.message}</p>`;
+
+                // Mostra la seconda tabella con /
+                errorResponse += `<h1>Information of Backend Pod:</h1>`;
+                errorResponse += `<table><tr><th>Property</th><th>Value</th></tr>`;
+                for (const [key, value] of Object.entries(results.root)) {
+                    if (key === 'ContainerIP') {
+                        for (const [interfaceName, interfaceList] of Object.entries(value)) {
+                            for (const interface of interfaceList) {
+                                if (interface.family === 'IPv4') {
+                                    errorResponse += `<tr><td>${interfaceName} IPv4 Address</td><td>${interface.address}</td></tr>`;
+                                }
+                                if (interface.family === 'IPv6') {
+                                    errorResponse += `<tr><td>${interfaceName} IPv6 Address</td><td>${interface.address}</td></tr>`;
+                                }
+                            }
+                        }
+                    } else {
+                        errorResponse += `<tr><td>${key}</td><td>${value}</td></tr>`;
+                    }
+                }
+                errorResponse += `</table>`;
             } else {
                 errorResponse += `<h1>Error: Unable to connect to the Backend Server</h1>`;
                 errorResponse += `<p>${err.message}</p>`;
