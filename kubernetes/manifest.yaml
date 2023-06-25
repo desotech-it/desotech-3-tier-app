@@ -85,7 +85,7 @@ spec:
           image: r.deso.tech/3tier/frontend:1.1.0
           env:
             - name: API_URL
-              value: http://backend-service.backend-namespace:3001/
+              value: http://backend-service.backend-namespace:3001
           ports:
             - containerPort: 3000
           resources:
