@@ -37,30 +37,35 @@ app.get("/", function(req, res) {
 });
 
 app.get('/data', async function(req, res) {
-  const isConnected = await connectToDatabase();
-
-  if (!isConnected) {
-    console.error("Cannot connect to database");
-    return res.status(500).json({ error: "Database connection failed" });
-  }
-
-  pool.connect((err, client, done) => {
-    if (err) throw err;
+  try {
+    const client = await pool.connect();
     client.query('SELECT country, capital FROM country_and_capitals', (err, result) => {
-      done();
+      client.release();
       if (err) {
         console.error("Errore nella query:", err);
-        return res.status(500).json({ error: "Si è verificato un errore durante l'esecuzione della query" });
+        return res.status(500).json({
+          error: "Si è verificato un errore durante l'esecuzione della query"
+        });
       }
 
       if (result.rows.length === 0) {
         console.error("Dati non trovati");
-        return res.status(404).json({ error: "Dati non trovati" });
+        return res.status(404).json({
+          error: "Dati non trovati"
+        });
       }
 
-      return res.status(200).json({ data: result.rows });
+      return res.status(200).json({
+        data: result.rows
+      });
     });
-  });
+  } catch (err) {
+    console.error("Failed to connect to the database:", err);
+    return res.status(500).json({
+      error: "Errore durante la connessione al database"
+    });
+  }
 });
+
 
 app.listen(port, () => console.log(`Desotech API Backend os listening on port ${port}!`));
