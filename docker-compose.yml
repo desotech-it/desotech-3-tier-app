@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   api:
-    build: ./api
+    build: ./backend
     environment:
       - CONNECTION_STRING=postgres://deso_user:deso_user@db/deso_db
     depends_on:
@@ -14,7 +14,7 @@ services:
   frontend:
     build: ./frontend
     environment:
-      - API_URL=http://api:3001/data
+      - API_URL=http://api:3001
     depends_on:
       - api
     ports:
@@ -26,7 +26,7 @@ services:
     image: r.deso.tech/dockerhub/library/postgres:11.2-alpine
     environment:
       POSTGRES_USER: deso_user
-      POSTGRES_PASSWORD: deso_user
+      POSTGRES_PASSWORD: deso_pass
       POSTGRES_DB: deso_db
     volumes:
       - ./db/init_sql_scripts/:/docker-entrypoint-initdb.d
