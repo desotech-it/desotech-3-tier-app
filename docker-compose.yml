@@ -4,7 +4,7 @@ services:
   api:
     build: ./backend
     environment:
-      - CONNECTION_STRING=postgres://deso_user:deso_user@db/deso_db
+      - CONNECTION_STRING=postgres://deso_user:deso_pass@db/deso_db
     depends_on:
       - db
     networks:
@@ -30,6 +30,7 @@ services:
       POSTGRES_DB: deso_db
     volumes:
       - ./db/init_sql_scripts/:/docker-entrypoint-initdb.d
+      - ./db/test_dump.sql:/dump.sql
     networks:
       - backend
 
